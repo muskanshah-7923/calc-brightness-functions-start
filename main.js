@@ -16,35 +16,31 @@ function btnClicked() {
   let g = +gInEl.value;
   let b = +bInEl.value;
 
-  // Validate Input Values - rgb values must be between 0 and 255
+  // Constrain Input Values - rgb values must be between 0 and 255
   if (r < 0) {
     r = 0;
-    rInEl.value = 0;
   } else if (r > 255) {
     r = 255;
-    rInEl.value = 255;
   }
+  rInEl.value = r;
 
   if (g < 0) {
     g = 0;
-    gInEl.value = 0;
   } else if (g > 255) {
     g = 255;
-    gInEl.value = 255;
   }
+  gInEl.value = g;
 
   if (b < 0) {
     b = 0;
-    bInEl.value = 0;
   } else if (b > 255) {
     b = 255;
-    bInEl.value = 255;
   }
+  bInEl.value = b;
 
   // Calculate & Output Brightness
   let brightness = Math.sqrt(0.299 * r ** 2 + 0.587 * g ** 2 + 0.114 * b ** 2);
-  brightness = Math.round(brightness);
-  brightEl.innerHTML = brightness;
+  brightEl.innerHTML = Math.round(brightness);
 
   // Update rgb preview: brightness > 160 -> black text, else white text
   let rgbString = `rgb(${r}, ${g}, ${b})`;
