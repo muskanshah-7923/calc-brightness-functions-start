@@ -12,43 +12,52 @@ document.getElementById("btn").addEventListener("click", btnClicked);
 
 function btnClicked() {
   // Get Input Values
-  let r = +rInEl.value;
-  let g = +gInEl.value;
-  let b = +bInEl.value;
+  let rIn = +rInEl.value;
+  let gIn = +gInEl.value;
+  let bIn = +bInEl.value;
 
   // Constrain Input Values - rgb values must be between 0 and 255
-  if (r < 0) {
-    r = 0;
-  } else if (r > 255) {
-    r = 255;
-  }
-  rInEl.value = r;
+  rIn = constrain(rIn, 0, 255);
+  rInEl.value = rIn;
 
-  if (g < 0) {
-    g = 0;
-  } else if (g > 255) {
-    g = 255;
-  }
-  gInEl.value = g;
+    gIn = constrain(gIn, 0, 255);
+  gInEl.value = gIn;
 
-  if (b < 0) {
-    b = 0;
-  } else if (b > 255) {
-    b = 255;
-  }
-  bInEl.value = b;
+  bIn = constrain(bIn, 0, 255)
+  bInEl.value = bIn;
 
   // Calculate & Output Brightness
-  let brightness = Math.sqrt(0.299 * r ** 2 + 0.587 * g ** 2 + 0.114 * b ** 2);
-  brightEl.innerHTML = Math.round(brightness);
+  let brightness = calcBrightness(rIn, gIn, bIn)
+  brightEl.innerHTML = brightness;
 
   // Update rgb preview: brightness > 160 -> black text, else white text
-  let rgbString = `rgb(${r}, ${g}, ${b})`;
+  let rgbString = `rgb(${rIn}, ${gIn}, ${bIn})`;
   previewEl.innerHTML = rgbString;
   previewEl.style.backgroundColor = rgbString;
-  if (brightness > 160) {
-    previewEl.style.color = "black";
-  } else {
-    previewEl.style.color = "white";
+  previewEl.style.color = getSmartFont(brightness);
+}
+
+//Helper Functions
+function calcBrightness(r, g, b) {
+return Math.round(Math.sqrt(0.299 * r ** 2 + 0.587 * g ** 2 + 0.114 * b ** 2));
+}
+
+function constrain(val, low, high) {
+  if (val < low) {
+    return low;
+  }
+else if (val > high) {
+return high;
+} else {
+  return val;
+}
+}
+
+function getSmartFont(brightValue) {
+  if (brightValue > 160) {
+    return  "black";
+  } else { 
+    return "white"
+
   }
 }
